@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#181b18">
+  <meta name="description" content="Visit Hiraz Restaurant in Namblabal, Pampore. Explore the menu, call the restaurant, or get directions.">
+  <title>Hiraz Restaurant | Good Food. Great Moments.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #20231f;
+      --ink-deep: #171a17;
+      --ink-soft: #292d28;
+      --cream: #f7f3e9;
+      --cream-deep: #eee8da;
+      --muted: #77796f;
+      --green: #6f8064;
+      --green-dark: #40513c;
+      --gold: #c7a76a;
+      --white: #fffdf8;
+      --line: rgba(32, 35, 31, .13);
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+      --page-width: 1200px;
+      --radius: 18px;
+      --shadow: 0 22px 60px rgba(20, 22, 19, .15);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--cream);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    body.no-scroll { overflow: hidden; }
+    img { display: block; width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .container { width: min(var(--page-width), calc(100% - 48px)); margin-inline: auto; }
+    .section { padding: 110px 0; }
+    .section-kicker {
+      margin: 0 0 14px;
+      color: var(--green-dark);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .19em;
+      text-transform: uppercase;
+    }
+    .section-title {
+      margin: 0;
+      font: 600 clamp(2.25rem, 4vw, 3.65rem)/1.13 var(--serif);
+      letter-spacing: -.035em;
+    }
+    .section-intro { color: var(--muted); font-size: 1rem; line-height: 1.8; }
+    .gold-line { width: 54px; height: 2px; margin: 23px 0; background: var(--gold); }
+    .btn {
+      min-height: 51px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 23px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .035em;
+      transition: .25s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { color: var(--ink-deep); background: var(--gold); }
+    .btn-primary:hover { background: #d9bd84; box-shadow: 0 10px 24px rgba(199,167,106,.23); }
+    .btn-outline { color: var(--white); border-color: rgba(255,255,255,.58); background: rgba(255,255,255,.03); }
+    .btn-outline:hover { color: var(--ink); background: var(--white); border-color: var(--white); }
+    .btn-dark { color: var(--white); background: var(--ink); }
+    .btn-dark:hover { background: var(--green-dark); }
+    .arrow { font-size: 1.05rem; transition: transform .2s ease; }
+    .btn:hover .arrow { transform: translateX(3px); }
+
+    /* Navigation */
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      padding: 18px 0;
+      color: var(--white);
+      transition: background .3s ease, padding .3s ease, box-shadow .3s ease;
+    }
+    .site-header.scrolled {
+      padding: 11px 0;
+      background: rgba(24, 27, 24, .91);
+      box-shadow: 0 8px 30px rgba(0,0,0,.12);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; flex: 0 0 auto; }
+    .brand-mark {
+      display: grid;
+      width: 41px;
+      height: 41px;
+      place-items: center;
+      border: 1px solid rgba(199,167,106,.8);
+      border-radius: 50%;
+      color: var(--gold);
+      font: 600 1.04rem var(--serif);
+    }
+    .brand-name { font-size: .94rem; font-weight: 700; letter-spacing: .22em; }
+    .brand-sub { display: block; margin-top: 3px; color: rgba(255,255,255,.65); font-size: .55rem; letter-spacing: .18em; }
+    .nav-links { display: flex; align-items: center; gap: clamp(18px, 2.35vw, 34px); margin-left: auto; }
+    .nav-links a {
+      position: relative;
+      color: rgba(255,255,255,.82);
+      font-size: .77rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a::after {
+      position: absolute;
+      right: 0;
+      bottom: -7px;
+      left: 0;
+      height: 1px;
+      background: var(--gold);
+      content: "";
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .22s ease;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-action { min-height: 43px; padding: 0 17px; font-size: .74rem; }
+    .menu-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 4px;
+      color: white;
+      background: transparent;
+      cursor: pointer;
+    }
+    .menu-toggle span { display: block; width: 20px; height: 1px; margin: 5px auto; background: currentColor; transition: .2s; }
+    .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(3px) rotate(45deg); }
+    .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-3px) rotate(-45deg); }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      display: flex;
+      min-height: min(850px, 100svh);
+      align-items: center;
+      overflow: hidden;
+      color: var(--white);
+      background: #2a302b url("https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=2200&q=88") center 54%/cover no-repeat;
+    }
+    .hero::before {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(17,20,18,.82) 0%, rgba(17,20,18,.65) 42%, rgba(17,20,18,.18) 100%),
+        linear-gradient(0deg, rgba(17,20,18,.53), transparent 45%);
+      content: "";
+    }
+    .hero-content { position: relative; z-index: 1; width: min(780px, 100%); padding-top: 102px; }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 24px;
+      color: #e9d5aa;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .21em;
+      text-transform: uppercase;
+      animation: rise .8s .12s both;
+    }
+    .hero-eyebrow::before { width: 34px; height: 1px; background: var(--gold); content: ""; }
+    .hero h1 {
+      max-width: 760px;
+      margin: 0;
+      font: 600 clamp(3.2rem, 7.3vw, 6.2rem)/1.04 var(--serif);
+      letter-spacing: -.045em;
+      animation: rise .9s .2s both;
+    }
+    .hero h1 span { color: #e2c68e; }
+    .hero-copy {
+      max-width: 490px;
+      margin: 24px 0 31px;
+      color: rgba(255,255,255,.82);
+      font-size: clamp(.96rem, 1.4vw, 1.08rem);
+      line-height: 1.75;
+      animation: rise .9s .3s both;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; animation: rise .9s .4s both; }
+    .hero-info {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 24px;
+      margin-top: 47px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.24);
+      color: rgba(255,255,255,.86);
+      font-size: .76rem;
+      animation: rise .9s .5s both;
+    }
+    .hero-info span { display: inline-flex; align-items: center; gap: 8px; }
+    .hero-info .star { color: #e2c68e; font-size: .95rem; }
+    .hero-scroll {
+      position: absolute;
+      right: 30px;
+      bottom: 37px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      color: rgba(255,255,255,.72);
+      font-size: .65rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+    .hero-scroll::after { width: 1px; height: 39px; background: var(--gold); content: ""; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(45px, 8vw, 105px); }
+    .about-image-wrap { position: relative; padding: 0 28px 28px 0; }
+    .about-image-wrap::after { position: absolute; right: 0; bottom: 0; width: 67%; height: 72%; border: 1px solid var(--gold); content: ""; }
+    .about-image {
+      position: relative;
+      z-index: 1;
+      height: 510px;
+      object-fit: cover;
+      object-position: center 40%;
+      box-shadow: var(--shadow);
+    }
+    .about-copy .section-intro { max-width: 520px; margin: 21px 0 26px; }
+    .info-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 30px; }
+    .info-card { min-height: 102px; padding: 17px 14px; border: 1px solid var(--line); background: rgba(255,255,255,.34); }
+    .info-card strong { display: block; margin-bottom: 7px; color: var(--green-dark); font: 600 1.17rem var(--serif); }
+    .info-card span { color: var(--muted); font-size: .67rem; line-height: 1.4; }
+
+    /* Menu */
+    .menu-section { background: var(--cream-deep); }
+    .section-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 25px; }
+    .section-heading-row .section-intro { max-width: 360px; margin: 0 0 4px; }
+    .menu-tabs {
+      display: flex;
+      gap: 9px;
+      overflow-x: auto;
+      margin: 39px 0 29px;
+      padding: 0 0 5px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold) transparent;
+    }
+    .menu-tab {
+      flex: 0 0 auto;
+      min-height: 42px;
+      padding: 0 19px;
+      border: 1px solid rgba(32,35,31,.17);
+      border-radius: 30px;
+      color: #5f6259;
+      background: transparent;
+      cursor: pointer;
+      font-size: .78rem;
+      transition: .2s ease;
+    }
+    .menu-tab:hover, .menu-tab[aria-selected="true"] { border-color: var(--ink); color: var(--white); background: var(--ink); }
+    .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .menu-card {
+      position: relative;
+      min-height: 185px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 25px;
+      border: 1px solid rgba(32,35,31,.12);
+      background: rgba(255,253,248,.72);
+      transition: transform .24s, box-shadow .24s, border-color .24s;
+    }
+    .menu-card:hover { transform: translateY(-4px); border-color: rgba(199,167,106,.8); box-shadow: 0 14px 35px rgba(36,39,32,.08); }
+    .menu-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .menu-card h3 { margin: 0; font: 600 1.38rem var(--serif); }
+    .menu-card p { margin: 10px 0 17px; color: var(--muted); font-size: .79rem; line-height: 1.6; }
+    .menu-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--green-dark); font-size: .7rem; font-weight: 700; }
+    .menu-card-foot span:last-child { color: #898a82; font-weight: 500; }
+    .menu-note { margin: 19px 0 0; color: var(--muted); font-size: .74rem; line-height: 1.6; }
+
+    /* Featured */
+    .featured-section { color: var(--white); background: var(--ink-deep); }
+    .featured-section .section-kicker { color: #d6bd8d; }
+    .featured-section .section-intro { color: rgba(255,255,255,.63); }
+    .featured-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 37px; }
+    .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .feature-card { position: relative; min-height: 430px; overflow: hidden; background: #30352f; }
+    .feature-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .65s ease; }
+    .feature-card:hover img { transform: scale(1.055); }
+    .feature-card::after { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(13,16,14,.87), rgba(13,16,14,.02) 75%); content: ""; }
+    .feature-copy { position: absolute; z-index: 1; right: 25px; bottom: 25px; left: 25px; }
+    .feature-copy span { color: #dfc58f; font-size: .66rem; font-weight: 700; letter-spacing: .16em; }
+    .feature-copy h3 { margin: 9px 0 5px; font: 600 1.75rem var(--serif); }
+    .feature-copy p { margin: 0; color: rgba(255,255,255,.74); font-size: .77rem; }
+
+    /* Experience */
+    .experience { position: relative; overflow: hidden; background: #e9e3d6; }
+    .experience-grid { display: grid; grid-template-columns: .92fr 1.08fr; align-items: center; gap: 70px; }
+    .experience-image-grid { display: grid; grid-template-columns: 1fr .72fr; align-items: end; gap: 13px; }
+    .experience-image-grid img { height: 380px; object-fit: cover; }
+    .experience-image-grid img:last-child { height: 280px; }
+    .experience-copy p { max-width: 440px; color: #6d7067; line-height: 1.8; }
+    .experience-copy .btn { margin-top: 17px; }
+    .experience-copy .section-title { max-width: 500px; }
+
+    /* Gallery */
+    .gallery-section { background: var(--white); }
+    .gallery-top { display: flex; align-items: end; justify-content: space-between; gap: 25px; margin-bottom: 34px; }
+    .gallery-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .gallery-filter {
+      padding: 9px 14px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      color: #6d7067;
+      background: transparent;
+      cursor: pointer;
+      font-size: .7rem;
+      transition: .2s;
+    }
+    .gallery-filter:hover, .gallery-filter[aria-pressed="true"] { border-color: var(--green-dark); color: white; background: var(--green-dark); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 180px; gap: 12px; }
+    .gallery-item { position: relative; overflow: hidden; padding: 0; border: 0; background: #ded9cd; cursor: zoom-in; }
+    .gallery-item:nth-child(1), .gallery-item:nth-child(6) { grid-row: span 2; }
+    .gallery-item:nth-child(3) { grid-column: span 2; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease, filter .3s; }
+    .gallery-item:hover img { transform: scale(1.06); filter: brightness(.82); }
+    .gallery-item[hidden] { display: none; }
+    .gallery-item::after { position: absolute; right: 13px; bottom: 12px; color: white; content: "↗"; font-size: 1.2rem; opacity: 0; transition: opacity .2s; }
+    .gallery-item:hover::after { opacity: 1; }
+
+    /* Reviews */
+    .reviews-section { position: relative; overflow: hidden; color: var(--white); background: var(--green-dark); }
+    .reviews-section::before, .reviews-section::after { position: absolute; width: 340px; height: 340px; border: 1px solid rgba(255,255,255,.09); border-radius: 50%; content: ""; }
+    .reviews-section::before { top: -210px; right: -50px; }
+    .reviews-section::after { right: 80px; bottom: -270px; width: 430px; height: 430px; }
+    .reviews-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; }
+    .reviews-section .section-kicker { color: #e4cf9f; }
+    .reviews-section .section-intro { max-width: 390px; color: rgba(255,255,255,.72); }
+    .rating-panel { display: flex; align-items: center; justify-content: center; gap: 27px; padding: 36px; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); }
+    .rating-number { font: 600 5.1rem/.95 var(--serif); }
+    .rating-stars { color: #e6c680; font-size: 1.25rem; letter-spacing: .12em; }
+    .rating-caption { margin-top: 9px; color: rgba(255,255,255,.7); font-size: .75rem; }
+    .reviews-button { margin-top: 27px; }
+
+    /* Location and CTA */
+    .location-section { background: var(--cream); }
+    .location-grid { display: grid; grid-template-columns: .84fr 1.16fr; gap: 58px; align-items: stretch; }
+    .location-details { display: flex; flex-direction: column; justify-content: center; }
+    .contact-list { display: grid; gap: 0; margin: 19px 0 26px; }
+    .contact-row { display: grid; grid-template-columns: 37px 1fr; gap: 13px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+    .contact-icon { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; color: var(--green-dark); background: #e9e6d9; font-size: .92rem; }
+    .contact-row small { display: block; margin-bottom: 5px; color: var(--muted); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
+    .contact-row strong, .contact-row a { font-size: .87rem; line-height: 1.55; }
+    .map-panel {
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      align-items: end;
+      overflow: hidden;
+      padding: 28px;
+      color: var(--white);
+      background:
+        linear-gradient(0deg, rgba(19,23,20,.8), transparent 60%),
+        url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1300&q=85") center/cover;
+    }
+    .map-panel-content { position: relative; z-index: 1; }
+    .map-panel-content span { color: #e6c680; font-size: .66rem; font-weight: 700; letter-spacing: .16em; }
+    .map-panel-content h3 { margin: 8px 0 17px; font: 600 1.8rem var(--serif); }
+
+    .final-cta { padding: 88px 0; color: var(--white); background: #747f68; }
+    .cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 35px; }
+    .final-cta .section-kicker { color: #f0d9a9; }
+    .final-cta h2 { max-width: 580px; margin: 0; font: 600 clamp(2.2rem, 4vw, 3.6rem)/1.15 var(--serif); }
+    .final-cta p { margin: 14px 0 0; color: rgba(255,255,255,.83); font-size: .9rem; line-height: 1.7; }
+    .cta-buttons { display: flex; flex: 0 0 auto; flex-wrap: wrap; gap: 10px; }
+
+    /* Footer */
+    .footer { padding: 58px 0 24px; color: rgba(255,255,255,.76); background: var(--ink-deep); }
+    .footer-main { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 45px; padding-bottom: 45px; }
+    .footer-brand p { max-width: 260px; margin: 17px 0 0; color: rgba(255,255,255,.53); font-size: .78rem; line-height: 1.7; }
+    .footer .brand-sub { color: rgba(255,255,255,.48); }
+    .footer h3 { margin: 5px 0 18px; color: var(--white); font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; }
+    .footer-links { display: grid; gap: 11px; }
+    .footer-links a { width: fit-content; color: rgba(255,255,255,.59); font-size: .76rem; transition: color .2s; }
+    .footer-links a:hover { color: #e5c98f; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.13); color: rgba(255,255,255,.45); font-size: .68rem; }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 70px;
+      background: rgba(10,12,10,.94);
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: min(1050px, 90vw); max-height: 78vh; width: auto; object-fit: contain; box-shadow: 0 20px 70px rgba(0,0,0,.45); }
+    .lightbox-caption { position: absolute; bottom: 20px; left: 50%; color: white; font-size: .8rem; transform: translateX(-50%); }
+    .lightbox-close, .lightbox-prev, .lightbox-next {
+      position: absolute;
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 50%;
+      color: white;
+      background: rgba(255,255,255,.08);
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
+    .lightbox-close { top: 22px; right: 22px; }
+    .lightbox-prev { left: 20px; top: 50%; }
+    .lightbox-next { right: 20px; top: 50%; }
+    .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover { background: rgba(255,255,255,.2); }
+
+    /* Entry animation */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 900px) {
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: .71rem; }
+      .nav-action { padding-inline: 12px; }
+      .section { padding: 88px 0; }
+      .about-grid { gap: 48px; }
+      .about-image { height: 440px; }
+      .experience-grid { gap: 40px; }
+      .feature-card { min-height: 360px; }
+      .footer-main { gap: 25px; }
+    }
+
+    @media (max-width: 700px) {
+      html { scroll-padding-top: 72px; }
+      .container { width: min(100% - 36px, var(--page-width)); }
+      .section { padding: 72px 0; }
+      .site-header { padding: 12px 0; }
+      .nav-wrap { gap: 12px; }
+      .brand-mark { width: 37px; height: 37px; }
+      .brand-name { font-size: .84rem; }
+      .nav-action { display: none; }
+      .menu-toggle { display: block; margin-left: auto; }
+      .nav-links {
+        position: absolute;
+        top: calc(100% + 1px);
+        right: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 8px 18px 15px;
+        background: rgba(24,27,24,.97);
+        box-shadow: 0 16px 25px rgba(0,0,0,.17);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: .23s ease;
+        backdrop-filter: blur(14px);
+      }
+      .nav-links.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+      .nav-links a { padding: 14px 3px; border-bottom: 1px solid rgba(255,255,255,.1); font-size: .88rem; }
+      .nav-links a::after { display: none; }
+      .hero { min-height: 760px; min-height: 94svh; background-position: 58% center; }
+      .hero::before { background: linear-gradient(90deg, rgba(17,20,18,.79), rgba(17,20,18,.40)), linear-gradient(0deg, rgba(17,20,18,.61), transparent 70%); }
+      .hero-content { padding-top: 92px; }
+      .hero h1 { font-size: clamp(3rem, 13vw, 4.5rem); }
+      .hero-copy { max-width: 400px; margin-top: 19px; }
+      .hero-actions { gap: 9px; }
+      .hero-actions .btn { min-height: 47px; padding: 0 14px; font-size: .73rem; }
+      .hero-info { gap: 10px 17px; margin-top: 34px; font-size: .7rem; }
+      .hero-scroll { display: none; }
+      .about-grid, .experience-grid, .location-grid { grid-template-columns: 1fr; }
+      .about-grid { gap: 38px; }
+      .about-image-wrap { max-width: 520px; }
+      .about-image { height: min(440px, 95vw); }
+      .about-copy .section-intro { margin-top: 16px; }
+      .info-cards { gap: 8px; }
+      .info-card { min-height: 90px; padding: 13px 10px; }
+      .info-card strong { font-size: 1rem; }
+      .info-card span { font-size: .62rem; }
+      .section-heading-row, .featured-heading, .gallery-top { align-items: flex-start; flex-direction: column; }
+      .section-heading-row .section-intro { max-width: 420px; }
+      .menu-tabs { margin-top: 27px; }
+      .menu-grid { grid-template-columns: 1fr; gap: 10px; }
+      .menu-card { min-height: 155px; padding: 21px; }
+      .menu-card h3 { font-size: 1.25rem; }
+      .featured-heading { margin-bottom: 25px; }
+      .featured-grid { grid-template-columns: 1fr; }
+      .feature-card { min-height: 390px; }
+      .experience-grid { gap: 30px; }
+      .experience-image-grid { grid-template-columns: 1fr .75fr; }
+      .experience-image-grid img { height: 300px; }
+      .experience-image-grid img:last-child { height: 225px; }
+      .gallery-top { margin-bottom: 24px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 145px; gap: 8px; }
+      .gallery-item:nth-child(3) { grid-column: span 1; }
+      .reviews-inner { grid-template-columns: 1fr; gap: 27px; }
+      .rating-panel { justify-content: flex-start; padding: 27px 22px; }
+      .rating-number { font-size: 4rem; }
+      .location-grid { gap: 30px; }
+      .map-panel { min-height: 330px; }
+      .final-cta { padding: 68px 0; }
+      .cta-inner { align-items: flex-start; flex-direction: column; }
+      .cta-buttons { flex-basis: auto; }
+      .footer-main { grid-template-columns: repeat(2, 1fr); gap: 32px 20px; }
+      .footer-brand { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+      .lightbox { padding: 45px 14px; }
+      .lightbox img { max-width: 94vw; max-height: 74vh; }
+      .lightbox-prev { left: 8px; }
+      .lightbox-next { right: 8px; }
+    }
+    @media (max-width: 380px) {
+      .container { width: calc(100% - 28px); }
+      .hero-actions .btn { padding: 0 10px; font-size: .68rem; }
+      .hero-info { column-gap: 12px; }
+      .info-card { padding-inline: 8px; }
+      .info-card strong { font-size: .91rem; }
+      .footer-main { column-gap: 13px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-wrap">
+      <a class="brand" href="#home" aria-label="Hiraz Restaurant home">
+        <span class="brand-mark">H</span>
+        <span><span class="brand-name">HIRAZ</span><span class="brand-sub">RESTAURANT · PAMPORE</span></span>
+      </a>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="btn btn-primary nav-action" href="#menu">View Menu <span class="arrow">↗</span></a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-eyebrow">A table for every moment</div>
+          <h1>Good Food.<br>Great Moments.<br><span>Welcome to Hiraz.</span></h1>
+          <p class="hero-copy">Discover delicious food and a warm dining experience in the heart of Pampore.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#menu">Explore Menu <span class="arrow">↗</span></a>
+            <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&query=2W99%2B75%20Pampore" target="_blank" rel="noopener">Get Directions <span class="arrow">↗</span></a>
+            <a class="btn btn-outline" href="tel:+919103202226">Call Now <span class="arrow">↗</span></a>
+          </div>
+          <div class="hero-info" aria-label="Restaurant information">
+            <span>⌖ Namblabal, Pampore</span>
+            <span><b class="star">★</b> 4.5 Google Rating</span>
+            <span>₹200–₹400 per person</span>
+          </div>
+        </div>
+      </div>
+      <a class="hero-scroll" href="#about" aria-label="Scroll to about">Discover</a>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container about-grid">
+        <div class="about-image-wrap reveal">
+          <img class="about-image" src="https://www.designarena.ai/u/83d43c5f-5251-49cc-b21c-042a4df3f44b" alt="Hiraz Restaurant storefront in Pampore" loading="lazy">
+        </div>
+        <div class="about-copy reveal">
+          <p class="section-kicker">About Hiraz</p>
+          <h2 class="section-title">A Place to Eat,<br>Relax &amp; Enjoy</h2>
+          <div class="gold-line"></div>
+          <p class="section-intro">Hiraz Restaurant brings together a welcoming atmosphere and a variety of popular comfort-food favourites in Pampore. Whether you're stopping by for a quick bite, meeting friends, or enjoying a meal with family, Hiraz is a convenient place to enjoy good food in a relaxed setting.</p>
+          <div class="info-cards">
+            <div class="info-card"><strong>4.5 / 5</strong><span>Google Rating</span></div>
+            <div class="info-card"><strong>₹200–₹400</strong><span>Average Price Range</span></div>
+            <div class="info-card"><strong>Pampore</strong><span>Our Location</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section menu-section" id="menu">
+      <div class="container">
+        <div class="section-heading-row reveal">
+          <div>
+            <p class="section-kicker">Made for your cravings</p>
+            <h2 class="section-title">Our Menu</h2>
+          </div>
+          <p class="section-intro">Something delicious for every craving. Browse a few known favourites, then call us for the current menu and prices.</p>
+        </div>
+        <div class="menu-tabs reveal" role="tablist" aria-label="Menu categories">
+          <button class="menu-tab" role="tab" aria-selected="true" data-category="pizza">Pizza</button>
+          <button class="menu-tab" role="tab" aria-selected="false" data-category="burgers">Burgers</button>
+          <button class="menu-tab" role="tab" aria-selected="false" data-category="momos">Momos</button>
+          <button class="menu-tab" role="tab" aria-selected="false" data-category="chicken">Chicken</button>
+          <button class="menu-tab" role="tab" aria-selected="false" data-category="rice">Rice</button>
+          <button class="menu-tab" role="tab" aria-selected="false" data-category="specials">Specials</button>
+        </div>
+        <div class="menu-grid" id="menuGrid" role="tabpanel" aria-live="polite"></div>
+        <p class="menu-note">Menu items and prices can change. Please contact Hiraz Restaurant for the latest availability and pricing.</p>
+      </div>
+    </section>
+
+    <section class="section featured-section">
+      <div class="container">
+        <div class="featured-heading reveal">
+          <div>
+            <p class="section-kicker">A few favourites</p>
+            <h2 class="section-title">Must-Try Favourites</h2>
+          </div>
+          <p class="section-intro">A closer look at some of the popular picks known at Hiraz.</p>
+        </div>
+        <div class="featured-grid">
+          <article class="feature-card reveal">
+            <img src="https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=900&q=85" alt="Cheese-topped pizza" loading="lazy">
+            <div class="feature-copy"><span>HIRAZ FAVOURITE</span><h3>Cheese Burst</h3><p>Ask us about today's menu and price.</p></div>
+          </article>
+          <article class="feature-card reveal">
+            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=900&q=85" alt="Freshly baked pizza with toppings" loading="lazy">
+            <div class="feature-copy"><span>HIRAZ FAVOURITE</span><h3>Peri Peri Punch</h3><p>Ask us about today's menu and price.</p></div>
+          </article>
+          <article class="feature-card reveal">
+            <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=900&q=85" alt="Chicken fried rice served in a bowl" loading="lazy">
+            <div class="feature-copy"><span>HIRAZ FAVOURITE</span><h3>Chicken Fried Rice</h3><p>Ask us about today's menu and price.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section experience">
+      <div class="container experience-grid">
+        <div class="experience-copy reveal">
+          <p class="section-kicker">Good food, good company</p>
+          <h2 class="section-title">Come Hungry.<br>Leave Happy.</h2>
+          <div class="gold-line"></div>
+          <p>Meet up over a meal, take a break, or make an ordinary day feel a little more special. Find Hiraz in Namblabal, Pampore.</p>
+          <a class="btn btn-dark" href="https://www.google.com/maps/search/?api=1&query=2W99%2B75%20Pampore" target="_blank" rel="noopener">Plan Your Visit <span class="arrow">↗</span></a>
+        </div>
+        <div class="experience-image-grid reveal">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=85" alt="Warm restaurant dining room" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=700&q=85" alt="Restaurant table set for a meal" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery-section" id="gallery">
+      <div class="container">
+        <div class="gallery-top reveal">
+          <div>
+            <p class="section-kicker">A taste of the atmosphere</p>
+            <h2 class="section-title">The Hiraz Gallery</h2>
+          </div>
+          <div class="gallery-filters" role="group" aria-label="Filter gallery">
+            <button class="gallery-filter" aria-pressed="true" data-filter="all">All</button>
+            <button class="gallery-filter" aria-pressed="false" data-filter="food">Food</button>
+            <button class="gallery-filter" aria-pressed="false" data-filter="restaurant">Restaurant</button>
+            <button class="gallery-filter" aria-pressed="false" data-filter="drinks">Drinks</button>
+            <button class="gallery-filter" aria-pressed="false" data-filter="vibe">Vibe</button>
+          </div>
+        </div>
+        <div class="gallery-grid reveal" id="galleryGrid">
+          <button class="gallery-item" data-category="food" data-caption="A favourite to share">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=900&q=85" alt="Pizza with fresh toppings" loading="lazy">
+          </button>
+          <button class="gallery-item" data-category="restaurant" data-caption="A welcoming dining space">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=700&q=85" alt="Restaurant interior" loading="lazy">
+          </button>
+          <button class="gallery-item" data-category="food" data-caption="Comfort food favourites">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1000&q=85" alt="Burger with fresh ingredients" loading="lazy">
+          </button>
+          <button class="gallery-item" data-category="drinks" data-caption="A refreshing pause">
+            <img src="https://images.unsplash.com/photo-1513558161293-cdaf765edfd7?auto=format&fit=crop&w=700&q=85" alt="Refreshing drink with citrus" loading="lazy">
+          </button>
+          <button class="gallery-item" data-category="vibe" data-caption="Hiraz Restaurant, Pampore">
+            <img src="https://www.designarena.ai/u/83d43c5f-5251-49cc-b21c-042a4df3f44b" alt="Hiraz Restaurant storefront" loading="lazy">
+          </button>
+          <button class="gallery-item" data-category="food" data-caption="Something warm and satisfying">
+            <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=700&q=85" alt="Chicken fried rice" loading="lazy">
+          </button>
+          <button class="gallery-item" data-category="restaurant" data-caption="A place to gather">
+            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=700&q=85" alt="Set restaurant table" loading="lazy">
+          </button>
+          <button class="gallery-item" data-category="food" data-caption="Crispy, golden favourites">
+            <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=700&q=85" alt="Crispy fried chicken" loading="lazy">
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reviews-section" id="reviews">
+      <div class="container reviews-inner">
+        <div class="reveal">
+          <p class="section-kicker">A note from our guests</p>
+          <h2 class="section-title">What Our Customers Say</h2>
+          <p class="section-intro">See the latest customer feedback and reviews on Google.</p>
+          <a class="btn btn-primary reviews-button" href="https://www.google.com/search?q=Hiraz+Restaurant+Pampore+reviews" target="_blank" rel="noopener">Read Google Reviews <span class="arrow">↗</span></a>
+        </div>
+        <div class="rating-panel reveal" aria-label="Rated 4.5 out of 5 from 29 Google reviews">
+          <div class="rating-number">4.5</div>
+          <div>
+            <div class="rating-stars" aria-label="Google rating">★★★★★</div>
+            <div class="rating-caption">out of 5 on Google<br>29 Google Reviews</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section location-section" id="contact">
+      <div class="container location-grid">
+        <div class="location-details reveal">
+          <p class="section-kicker">Come by and say hello</p>
+          <h2 class="section-title">Find Us in Pampore</h2>
+          <div class="gold-line"></div>
+          <div class="contact-list">
+            <div class="contact-row">
+              <span class="contact-icon" aria-hidden="true">⌖</span>
+              <div><small>Address</small><strong>Opp. JK Bank, Namblabal, Pampore, Jammu and Kashmir 192121</strong></div>
+            </div>
+            <div class="contact-row">
+              <span class="contact-icon" aria-hidden="true">☎</span>
+              <div><small>Call Hiraz</small><a href="tel:+919103202226">091032 02226</a></div>
+            </div>
+            <div class="contact-row">
+              <span class="contact-icon" aria-hidden="true">＋</span>
+              <div><small>Google Plus Code</small><strong>2W99+75 Pampore</strong></div>
+            </div>
+            <div class="contact-row">
+              <span class="contact-icon" aria-hidden="true">◷</span>
+              <div><small>Listed timing</small><strong>Open until 10:00 PM</strong></div>
+            </div>
+          </div>
+          <a class="btn btn-dark" href="https://www.google.com/maps/search/?api=1&query=2W99%2B75%20Pampore" target="_blank" rel="noopener">Get Directions <span class="arrow">↗</span></a>
+        </div>
+        <div class="map-panel reveal">
+          <div class="map-panel-content">
+            <span>HIRAZ RESTAURANT</span>
+            <h3>Namblabal, Pampore</h3>
+            <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&query=2W99%2B75%20Pampore" target="_blank" rel="noopener">Open in Google Maps <span class="arrow">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="container cta-inner">
+        <div>
+          <p class="section-kicker">Your table is waiting</p>
+          <h2>Planning Your Next Meal?</h2>
+          <p>Visit Hiraz Restaurant in Pampore and enjoy your next meal with us.</p>
+        </div>
+        <div class="cta-buttons">
+          <a class="btn btn-primary" href="tel:+919103202226">Call Now <span class="arrow">↗</span></a>
+          <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&query=2W99%2B75%20Pampore" target="_blank" rel="noopener">Get Directions <span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a class="brand" href="#home" aria-label="Hiraz home">
+            <span class="brand-mark">H</span>
+            <span><span class="brand-name">HIRAZ</span><span class="brand-sub">RESTAURANT · PAMPORE</span></span>
+          </a>
+          <p>Restaurant in Namblabal, Pampore, Jammu &amp; Kashmir.</p>
+        </div>
+        <div>
+          <h3>Explore</h3>
+          <div class="footer-links">
+            <a href="#home">Home</a><a href="#about">About</a><a href="#menu">Menu</a>
+          </div>
+        </div>
+        <div>
+          <h3>Discover</h3>
+          <div class="footer-links">
+            <a href="#gallery">Gallery</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h3>Find Hiraz</h3>
+          <div class="footer-links">
+            <a href="https://www.google.com/maps/search/?api=1&query=2W99%2B75%20Pampore" target="_blank" rel="noopener">Google Maps ↗</a>
+            <a href="https://www.instagram.com/explore/search/keyword/?q=Hiraz%20Restaurant%20Pampore" target="_blank" rel="noopener">Instagram ↗</a>
+            <a href="https://www.facebook.com/search/top?q=Hiraz%20Restaurant%20Pampore" target="_blank" rel="noopener">Facebook ↗</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="currentYear"></span> Hiraz Restaurant. All rights reserved.</span>
+        <span>Namblabal, Pampore, Jammu &amp; Kashmir</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Gallery image viewer">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close image viewer">×</button>
+    <button class="lightbox-prev" id="lightboxPrev" type="button" aria-label="Previous image">‹</button>
+    <img id="lightboxImage" src="" alt="">
+    <button class="lightbox-next" id="lightboxNext" type="button" aria-label="Next image">›</button>
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+
+  <script>
+    const menuData = {
+      pizza: [
+        { name: "Cheese Burst", note: "A known Hiraz favourite. Ask about current options.", tag: "Known favourite" },
+        { name: "Pizza selection", note: "Menu details are being updated. Call for today's selection.", tag: "Editable placeholder" }
+      ],
+      burgers: [
+        { name: "Burgers", note: "Ask the restaurant for available varieties and current prices.", tag: "Known highlight" },
+        { name: "More to explore", note: "Menu details are being updated. Call for today's selection.", tag: "Editable placeholder" }
+      ],
+      momos: [
+        { name: "Momos", note: "Ask the restaurant for available varieties and current prices.", tag: "Known highlight" },
+        { name: "More to explore", note: "Menu details are being updated. Call for today's selection.", tag: "Editable placeholder" }
+      ],
+      chicken: [
+        { name: "Fried Chicken", note: "A known Hiraz food highlight. Call for current availability.", tag: "Known highlight" },
+        { name: "Crispy Chicken", note: "A known Hiraz food highlight. Call for current availability.", tag: "Known highlight" }
+      ],
+      rice: [
+        { name: "Chicken Fried Rice", note: "A known Hiraz favourite. Ask about current options.", tag: "Known favourite" },
+        { name: "Rice selection", note: "Menu details are being updated. Call for today's selection.", tag: "Editable placeholder" }
+      ],
+      specials: [
+        { name: "Peri Peri Punch", note: "A known Hiraz favourite. Ask us what today's menu includes.", tag: "Known favourite" },
+        { name: "Cheese Burst", note: "A known Hiraz favourite. Ask about current availability.", tag: "Known favourite" },
+        { name: "Crispy Chicken", note: "A known Hiraz food highlight. Call for current availability.", tag: "Known highlight" }
+      ]
+    };
+
+    const menuGrid = document.getElementById("menuGrid");
+    function renderMenu(category) {
+      menuGrid.innerHTML = menuData[category].map(item => `
+        <article class="menu-card">
+          <div>
+            <div class="menu-card-top"><h3>${item.name}</h3></div>
+            <p>${item.note}</p>
+          </div>
+          <div class="menu-card-foot"><span>${item.tag}</span><span>Ask for price</span></div>
+        </article>
+      `).join("");
+    }
+    document.querySelectorAll(".menu-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".menu-tab").forEach(button => button.setAttribute("aria-selected", "false"));
+        tab.setAttribute("aria-selected", "true");
+        renderMenu(tab.dataset.category);
+      });
+    });
+    renderMenu("pizza");
+
+    const header = document.getElementById("siteHeader");
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    function updateHeader() {
+      header.classList.toggle("scrolled", window.scrollY > 30);
+    }
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    updateHeader();
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Open navigation" : "Close navigation");
+      navLinks.classList.toggle("open", !isOpen);
+    });
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation");
+      });
+    });
+    document.addEventListener("click", event => {
+      if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation");
+      }
+    });
+
+    const sections = document.querySelectorAll("main section[id]");
+    const navAnchors = document.querySelectorAll(".nav-links a");
+    const activeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navAnchors.forEach(anchor => anchor.classList.toggle("active", anchor.getAttribute("href") === "#" + entry.target.id));
+        }
+      });
+    }, { rootMargin: "-35% 0px -55% 0px" });
+    sections.forEach(section => activeObserver.observe(section));
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(element => revealObserver.observe(element));
+
+    const galleryButtons = [...document.querySelectorAll(".gallery-item")];
+    document.querySelectorAll(".gallery-filter").forEach(filter => {
+      filter.addEventListener("click", () => {
+        document.querySelectorAll(".gallery-filter").forEach(button => button.setAttribute("aria-pressed", "false"));
+        filter.setAttribute("aria-pressed", "true");
+        galleryButtons.forEach(item => {
+          item.hidden = filter.dataset.filter !== "all" && item.dataset.category !== filter.dataset.filter;
+        });
+      });
+    });
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxCaption = document.getElementById("lightboxCaption");
+    let currentGalleryItems = [];
+    let currentIndex = 0;
+    function showGalleryImage(index) {
+      currentIndex = (index + currentGalleryItems.length) % currentGalleryItems.length;
+      const item = currentGalleryItems[currentIndex];
+      const image = item.querySelector("img");
+      lightboxImage.src = image.src;
+      lightboxImage.alt = image.alt;
+      lightboxCaption.textContent = item.dataset.caption || image.alt;
+    }
+    function openLightbox(item) {
+      currentGalleryItems = galleryButtons.filter(button => !button.hidden);
+      currentIndex = currentGalleryItems.indexOf(item);
+      showGalleryImage(currentIndex);
+      lightbox.classList.add("open");
+      document.body.classList.add("no-scroll");
+      document.getElementById("lightboxClose").focus();
+    }
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+      document.body.classList.remove("no-scroll");
+    }
+    galleryButtons.forEach(item => item.addEventListener("click", () => openLightbox(item)));
+    document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+    document.getElementById("lightboxPrev").addEventListener("click", () => showGalleryImage(currentIndex - 1));
+    document.getElementById("lightboxNext").addEventListener("click", () => showGalleryImage(currentIndex + 1));
+    lightbox.addEventListener("click", event => { if (event.target === lightbox) closeLightbox(); });
+    document.addEventListener("keydown", event => {
+      if (!lightbox.classList.contains("open")) return;
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") showGalleryImage(currentIndex - 1);
+      if (event.key === "ArrowRight") showGalleryImage(currentIndex + 1);
+    });
+
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
